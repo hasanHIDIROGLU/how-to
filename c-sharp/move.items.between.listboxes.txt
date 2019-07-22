@@ -1,0 +1,17 @@
+//this samples moves selected items on listbox to another listbox
+//extension method
+public static void OgeTasi(this ListBox secilen, ListBox tasinan)
+{
+	if (secilen.Items.Count > 0)
+	{
+		var secilenler = secilen.Items.OfType<ListItem>().Where(x => x.Selected).ToArray();
+		var kalanlar = secilen.Items.OfType<ListItem>().ToArray().Except(secilenler).ToArray();
+		tasinan.Items.AddRange(secilenler);
+		secilen.Items.Clear();
+		secilen.Items.AddRange(kalanlar);
+	}
+}
+
+// using
+
+listbox1.OgeTasi(listbox2);
