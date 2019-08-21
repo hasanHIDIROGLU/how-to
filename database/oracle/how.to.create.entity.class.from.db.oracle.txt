@@ -1,0 +1,38 @@
+DECLARE
+   TABLENAME   VARCHAR2(100) := 'XXXXTABLENAMEXXXX';
+   CSCLASS     VARCHAR2(10000);
+   CSFIELDS    VARCHAR2(10000);
+
+   CURSOR C1(TABLEFORCLASS VARCHAR2)
+   IS
+      SELECT DISTINCT ' public ' || TO_CHAR(COLUMNTYPE) || ' ' || TO_CHAR(COLUMNNAME) || ' {get;set;} ' PROP,
+                      ' public int f_' || TO_CHAR(COLUMNNAME) || '= ' || CLMLENGTH || ';' LENOFCOLUMN
+        FROM (SELECT REPLACE(COL.COLUMN_NAME, ' ', '_') COLUMNNAME,
+                     COL.DATA_TYPE,
+                     COLUMN_ID,
+                     CASE COL.DATA_TYPE
+                        WHEN 'NUMBER' THEN 'int'
+                        WHEN 'VARCHAR2' THEN 'string'
+                        WHEN 'NVARCHAR2' THEN 'string'
+                        WHEN 'DATE' THEN 'string'
+                     END
+                        COLUMNTYPE,
+                     CASE WHEN DATA_PRECISION IS NULL THEN DATA_LENGTH ELSE DATA_PRECISION END CLMLENGTH
+                FROM ALL_TAB_COLUMNS COL
+               WHERE TABLE_NAME = TABLEFORCLASS);
+BEGIN
+
+   FOR REC_C1 IN C1(TABLENAME)
+   LOOP
+      EXIT WHEN C1%NOTFOUND;
+      CSCLASS := CSCLASS || REC_C1.PROP || CHR(13);
+      CSFIELDS := CSFIELDS || REC_C1.LENOFCOLUMN || CHR(13);
+   END LOOP;
+
+
+   DBMS_OUTPUT.PUT_LINE('public class ' || TABLENAME || CHR(13) || '{');
+   DBMS_OUTPUT.PUT_LINE(CSFIELDS);
+   DBMS_OUTPUT.PUT_LINE(CSCLASS);
+   DBMS_OUTPUT.PUT_LINE('}');
+
+END;
