@@ -1,0 +1,17 @@
+Merhaba;
+
+Windows, bilgisayarınıza yüklediğiniz tüm programlar için c:\windows\installer dizininde kurulum dosyalarını saklar. 
+Bu dosyaları daha sonra programı kaldırmak yada güncellemek için kullanır.
+Installer dizininin boyutu zamanla artar (bende 50 GB geçmişti).
+
+SSD disklerin kapasitelerinin az olması nedeniyle bir süre sonra yer sıkıntısı yaşanmaktadır. 
+SSD disklerde güvenli bir şekilde yer açmak için Installer dizinini, daha büyük olan yedek diske taşıyabilirsiniz.
+Bu taşıma işlemini, Windows’un çalışmasını bozmadan güvenli bir şekilde yapabilmek için aşağıdakileri yapın;
+
+1-	explorer’da C:\Windows\Installer dizinine girin ve içindeki herşeyi yedek diskinize açtığınız bir klasöre (örn: D:\Windows\Installer ) kopyalayın.
+2-	cmd komut satırı konsolunu yönetici olarak açın.
+3-	rmdir /s /q C:\Windows\Installer komutunu çalıştırın. 
+•	Eğer dosyaların silinmesi sırasında dosya kullanılıyor hatası alırsanız WinDirStat yada benzeri bir program yükleyerek daha kolay silebilirsiniz.
+4-	mklink /D C:\Windows\Installer D:\Windows\Installer komutunu çalıştırın.
+
+Kolay gelsin, iyi günler.
